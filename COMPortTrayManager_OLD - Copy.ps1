@@ -257,37 +257,37 @@ function Get-USBInfo {
 }
 function Open-COMPort {
     param($portName)
-
+    
     # Create form for settings
     $form = New-Object System.Windows.Forms.Form
     $form.Text = "Open $portName - Serial Monitor Settings"
-    $form.Size = New-Object System.Drawing.Size(420, 560)
+    $form.Size = New-Object System.Drawing.Size(400, 350)
     $form.StartPosition = "CenterScreen"
     $form.FormBorderStyle = "FixedDialog"
     $form.MaximizeBox = $false
-
+    
     # Baud rate
     $lblBaud = New-Object System.Windows.Forms.Label
     $lblBaud.Text = "Baud Rate:"
     $lblBaud.Location = New-Object System.Drawing.Point(20, 20)
     $lblBaud.Size = New-Object System.Drawing.Size(100, 20)
     $form.Controls.Add($lblBaud)
-
+    
     $cmbBaud = New-Object System.Windows.Forms.ComboBox
     $cmbBaud.Location = New-Object System.Drawing.Point(130, 20)
     $cmbBaud.Size = New-Object System.Drawing.Size(240, 20)
     $cmbBaud.DropDownStyle = "DropDown"
-    $cmbBaud.Items.AddRange(@("9600", "115200", "256000", "500000", "921600", "1000000", "1500000", "2000000", "3000000", "6000000"))
-    $cmbBaud.Text = "921600"
+    $cmbBaud.Items.AddRange(@("9600", "115200", "256000", "500000","921600", "1000000","1500000", "2000000", "3000000", "6000000"))
+    $cmbBaud.Text = "115200"
     $form.Controls.Add($cmbBaud)
-
+    
     # Data bits
     $lblData = New-Object System.Windows.Forms.Label
     $lblData.Text = "Data Bits:"
     $lblData.Location = New-Object System.Drawing.Point(20, 60)
     $lblData.Size = New-Object System.Drawing.Size(100, 20)
     $form.Controls.Add($lblData)
-
+    
     $cmbData = New-Object System.Windows.Forms.ComboBox
     $cmbData.Location = New-Object System.Drawing.Point(130, 60)
     $cmbData.Size = New-Object System.Drawing.Size(100, 20)
@@ -295,14 +295,14 @@ function Open-COMPort {
     $cmbData.Items.AddRange(@("5", "6", "7", "8"))
     $cmbData.SelectedItem = "8"
     $form.Controls.Add($cmbData)
-
+    
     # Parity
     $lblParity = New-Object System.Windows.Forms.Label
     $lblParity.Text = "Parity:"
     $lblParity.Location = New-Object System.Drawing.Point(20, 100)
     $lblParity.Size = New-Object System.Drawing.Size(100, 20)
     $form.Controls.Add($lblParity)
-
+    
     $cmbParity = New-Object System.Windows.Forms.ComboBox
     $cmbParity.Location = New-Object System.Drawing.Point(130, 100)
     $cmbParity.Size = New-Object System.Drawing.Size(100, 20)
@@ -310,14 +310,14 @@ function Open-COMPort {
     $cmbParity.Items.AddRange(@("N", "E", "O", "S", "M"))
     $cmbParity.SelectedItem = "N"
     $form.Controls.Add($cmbParity)
-
+    
     # Stop bits
     $lblStop = New-Object System.Windows.Forms.Label
     $lblStop.Text = "Stop Bits:"
     $lblStop.Location = New-Object System.Drawing.Point(20, 140)
     $lblStop.Size = New-Object System.Drawing.Size(100, 20)
     $form.Controls.Add($lblStop)
-
+    
     $cmbStop = New-Object System.Windows.Forms.ComboBox
     $cmbStop.Location = New-Object System.Drawing.Point(130, 140)
     $cmbStop.Size = New-Object System.Drawing.Size(100, 20)
@@ -325,134 +325,56 @@ function Open-COMPort {
     $cmbStop.Items.AddRange(@("1", "1.5", "2"))
     $cmbStop.SelectedItem = "1"
     $form.Controls.Add($cmbStop)
-
-    # Monitor mode (base filter)
-    $grpMode = New-Object System.Windows.Forms.GroupBox
-    $grpMode.Text = "Monitor mode (base filter)"
-    $grpMode.Location = New-Object System.Drawing.Point(20, 180)
-    $grpMode.Size = New-Object System.Drawing.Size(370, 140)
-    $form.Controls.Add($grpMode)
-
-    $rbDirect = New-Object System.Windows.Forms.RadioButton
-    $rbDirect.Text = "Direct (raw, keeps CR/ANSI)"
-    $rbDirect.Location = New-Object System.Drawing.Point(12, 22)
-    $rbDirect.Size = New-Object System.Drawing.Size(250, 20)
-    $rbDirect.Checked = $true
-    $grpMode.Controls.Add($rbDirect)
-
-    $rbDefault = New-Object System.Windows.Forms.RadioButton
-    $rbDefault.Text = "Default (strips control codes)"
-    $rbDefault.Location = New-Object System.Drawing.Point(12, 45)
-    $rbDefault.Size = New-Object System.Drawing.Size(250, 20)
-    $grpMode.Controls.Add($rbDefault)
-
-    $rbPrintable = New-Object System.Windows.Forms.RadioButton
-    $rbPrintable.Text = "Printable (drops non-printables)"
-    $rbPrintable.Location = New-Object System.Drawing.Point(12, 68)
-    $rbPrintable.Size = New-Object System.Drawing.Size(250, 20)
-    $grpMode.Controls.Add($rbPrintable)
-
-    $rbNoControl = New-Object System.Windows.Forms.RadioButton
-    $rbNoControl.Text = "NoControl (drops control chars)"
-    $rbNoControl.Location = New-Object System.Drawing.Point(12, 91)
-    $rbNoControl.Size = New-Object System.Drawing.Size(250, 20)
-    $grpMode.Controls.Add($rbNoControl)
-
-    $rbHexlify = New-Object System.Windows.Forms.RadioButton
-    $rbHexlify.Text = "Hexlify (show bytes as hex)"
-    $rbHexlify.Location = New-Object System.Drawing.Point(12, 114)
-    $rbHexlify.Size = New-Object System.Drawing.Size(250, 20)
-    $grpMode.Controls.Add($rbHexlify)
-
-    # Extras (additional filters/transforms)
-    $grpExtras = New-Object System.Windows.Forms.GroupBox
-    $grpExtras.Text = "Extras (optional)"
-    $grpExtras.Location = New-Object System.Drawing.Point(20, 330)
-    $grpExtras.Size = New-Object System.Drawing.Size(370, 100)
-    $form.Controls.Add($grpExtras)
-
-    $cbColorize = New-Object System.Windows.Forms.CheckBox
-    $cbColorize.Text = "colorize"
-    $cbColorize.Location = New-Object System.Drawing.Point(12, 22)
-    $cbColorize.Size = New-Object System.Drawing.Size(100, 20)
-    $grpExtras.Controls.Add($cbColorize)
-
-    $cbDebug = New-Object System.Windows.Forms.CheckBox
-    $cbDebug.Text = "debug"
-    $cbDebug.Location = New-Object System.Drawing.Point(120, 22)
-    $cbDebug.Size = New-Object System.Drawing.Size(80, 20)
-    $grpExtras.Controls.Add($cbDebug)
-
-    $cbTime = New-Object System.Windows.Forms.CheckBox
-    $cbTime.Text = "time"
-    $cbTime.Location = New-Object System.Drawing.Point(210, 22)
-    $cbTime.Size = New-Object System.Drawing.Size(80, 20)
-    $grpExtras.Controls.Add($cbTime)
-
-    $cbSendOnEnter = New-Object System.Windows.Forms.CheckBox
-    $cbSendOnEnter.Text = "send_on_enter"
-    $cbSendOnEnter.Location = New-Object System.Drawing.Point(12, 48)
-    $cbSendOnEnter.Size = New-Object System.Drawing.Size(150, 20)
-    $grpExtras.Controls.Add($cbSendOnEnter)
-
-    $cbLog2File = New-Object System.Windows.Forms.CheckBox
-    $cbLog2File.Text = "log2file"
-    $cbLog2File.Location = New-Object System.Drawing.Point(170, 48)
-    $cbLog2File.Size = New-Object System.Drawing.Size(100, 20)
-    $grpExtras.Controls.Add($cbLog2File)
-
-    # Print chosen settings in terminal
-    $cbPrintSelection = New-Object System.Windows.Forms.CheckBox
-    $cbPrintSelection.Text = "Print selected settings when monitor opens"
-    $cbPrintSelection.Location = New-Object System.Drawing.Point(20, 440)
-    $cbPrintSelection.Size = New-Object System.Drawing.Size(370, 20)
-    $cbPrintSelection.Checked = $true
-    $form.Controls.Add($cbPrintSelection)
-
+    
+    # Filters
+    $lblFilter = New-Object System.Windows.Forms.Label
+    $lblFilter.Text = "Filters (optional):"
+    $lblFilter.Location = New-Object System.Drawing.Point(20, 180)
+    $lblFilter.Size = New-Object System.Drawing.Size(100, 20)
+    $form.Controls.Add($lblFilter)
+    
+    $txtFilter = New-Object System.Windows.Forms.TextBox
+    $txtFilter.Location = New-Object System.Drawing.Point(130, 180)
+    $txtFilter.Size = New-Object System.Drawing.Size(240, 20)
+    $txtFilter.Text = "default"
+    $form.Controls.Add($txtFilter)
+    
+    # Info label
+    $lblInfo = New-Object System.Windows.Forms.Label
+    $lblInfo.Text = "Available filters: colorize, debug, direct, hexlify, time, etc."
+    $lblInfo.Location = New-Object System.Drawing.Point(130, 205)
+    $lblInfo.Size = New-Object System.Drawing.Size(240, 40)
+    $lblInfo.ForeColor = [System.Drawing.Color]::Gray
+    $form.Controls.Add($lblInfo)
+    
     # Buttons
     $btnOK = New-Object System.Windows.Forms.Button
     $btnOK.Text = "Open Monitor"
-    $btnOK.Location = New-Object System.Drawing.Point(130, 470)
-    $btnOK.Size = New-Object System.Drawing.Size(110, 30)
+    $btnOK.Location = New-Object System.Drawing.Point(130, 260)
+    $btnOK.Size = New-Object System.Drawing.Size(100, 30)
     $btnOK.DialogResult = [System.Windows.Forms.DialogResult]::OK
     $form.Controls.Add($btnOK)
-
+    
     $btnCancel = New-Object System.Windows.Forms.Button
     $btnCancel.Text = "Cancel"
-    $btnCancel.Location = New-Object System.Drawing.Point(250, 470)
-    $btnCancel.Size = New-Object System.Drawing.Size(90, 30)
+    $btnCancel.Location = New-Object System.Drawing.Point(240, 260)
+    $btnCancel.Size = New-Object System.Drawing.Size(100, 30)
     $btnCancel.DialogResult = [System.Windows.Forms.DialogResult]::Cancel
     $form.Controls.Add($btnCancel)
-
+    
     $form.AcceptButton = $btnOK
     $form.CancelButton = $btnCancel
-
+    
     if ($form.ShowDialog() -eq [System.Windows.Forms.DialogResult]::OK) {
         $baudRate = $cmbBaud.Text
         $dataBits = $cmbData.SelectedItem
         $parity = $cmbParity.SelectedItem
         $stopBits = $cmbStop.SelectedItem
-
-        # Pick base filter (always pass one explicitly so PlatformIO doesn't fall back to implicit defaults)
-        $baseFilter = "direct"
-        if ($rbDefault.Checked)   { $baseFilter = "default" }
-        if ($rbPrintable.Checked) { $baseFilter = "printable" }
-        if ($rbNoControl.Checked) { $baseFilter = "nocontrol" }
-        if ($rbHexlify.Checked)   { $baseFilter = "hexlify" }
-
-        $filters = New-Object System.Collections.Generic.List[string]
-        $filters.Add($baseFilter)
-
-        # Extras
-        if ($cbColorize.Checked)    { $filters.Add("colorize") }
-        if ($cbDebug.Checked)       { $filters.Add("debug") }
-        if ($cbTime.Checked)        { $filters.Add("time") }
-        if ($cbSendOnEnter.Checked) { $filters.Add("send_on_enter") }
-        if ($cbLog2File.Checked)    { $filters.Add("log2file") }
-
+        $filters = $txtFilter.Text
+        
         # Build PlatformIO command
         $pioPath = "$env:USERPROFILE\.platformio\penv\Scripts\platformio.exe"
-
+        
         # Check if PlatformIO is installed
         if (-not (Test-Path $pioPath)) {
             # Try to find it in PATH
@@ -469,79 +391,28 @@ function Open-COMPort {
                 return
             }
         }
-
-        # Build a single cmd.exe-safe PlatformIO invocation line.
-        # Avoid complex quoting/argument-joining bugs by emitting an explicit command string.
-        $pioExeInBat = $pioPath
-        if ($pioPath -ne "platformio") {
-            $pioExeInBat = '"' + $pioPath + '"'
-        }
-
-        $pioLine = "$pioExeInBat device monitor --port $portName --baud $baudRate"
-
+        
+        # Build arguments
+        $args = @("device", "monitor", "--port", $portName, "--baud", $baudRate)
+        
         # Add parity/data/stop bits if not default
         if ($dataBits -ne "8" -or $parity -ne "N" -or $stopBits -ne "1") {
-            $pioLine += " --parity $parity --databits $dataBits --stopbits $stopBits"
+            $args += "--parity", $parity
+            $args += "--databits", $dataBits
+            $args += "--stopbits", $stopBits
         }
-
-        # Add all selected filters (repeat --filter)
-        foreach ($f in $filters) {
-            $pioLine += " --filter $f"
+        
+        # Add filters if specified
+        if ($filters -and $filters -ne "default") {
+            $args += "--filter", $filters
         }
-
-        # Pretty banner
-        $filterStr = ($filters.ToArray() -join ", ")
-        $uartFmt = "$baudRate $dataBits-$parity-$stopBits"
-
-        # Launch in a new console.
-        # IMPORTANT: piping/quoting in cmd.exe is fragile, and it was swallowing PlatformIO args.
-        # Create a temporary .cmd file instead (robust, easy to inspect, preserves Ctrl+C).
-
-        $batName = "pio_monitor_{0}_{1}.cmd" -f $portName, ([Guid]::NewGuid().ToString('N').Substring(0,8))
-        $batPath = Join-Path $env:TEMP $batName
-
-        $batLines = New-Object System.Collections.Generic.List[string]
-        $batLines.Add("@echo off")
-        $batLines.Add("title Serial Monitor $portName [$uartFmt]")
-        if ($cbPrintSelection.Checked) {
-            $batLines.Add("echo --- Serial Monitor: $portName [$uartFmt]")
-            $batLines.Add("echo --- Filters: $filterStr")
-            $batLines.Add("echo.")
-        }
-        $batLines.Add($pioLine)
-        $batLines.Add("echo.")
-        $batLines.Add("echo [monitor exited] Press any key to close")
-        $batLines.Add("pause >nul")
-
-        try {
-            [System.IO.File]::WriteAllLines($batPath, $batLines.ToArray())
-        } catch {
-            [System.Windows.Forms.MessageBox]::Show(
-                "Failed to create temporary launch script:`n$batPath`n`n$_",
-                "Launch Error",
-                [System.Windows.Forms.MessageBoxButtons]::OK,
-                [System.Windows.Forms.MessageBoxIcon]::Error
-            )
-            return
-        }
-
-        # Optional: log the exact command for debugging (tray mode has no console)
-        try {
-            $logPath = Join-Path $PSScriptRoot "com_manager_tray.log"
-            $stamp = (Get-Date).ToString("yyyy-MM-dd HH:mm:ss")
-            Add-Content -Path $logPath -Value "[$stamp] Launching: $batPath"
-            Add-Content -Path $logPath -Value "[$stamp]   $pioLine"
-            Add-Content -Path $logPath -Value "[$stamp]   --- cmd file contents ---"
-            foreach ($l in $batLines) { Add-Content -Path $logPath -Value "[$stamp]   $l" }
-            Add-Content -Path $logPath -Value "[$stamp]   --- end cmd file contents ---"
-        } catch {}
-
-        # cmd.exe needs extra quoting to run a path with spaces via /k
-        # Pass as two arguments: /k  and  ""<batPath>""
-        $cmdArg2 = "`"`"$batPath`"`""
-        Start-Process -FilePath "cmd.exe" -ArgumentList @("/k", $cmdArg2)
+        
+        Write-Host "Launching PlatformIO Monitor: $pioPath $($args -join ' ')"
+        
+        # Launch in new window
+        Start-Process -FilePath $pioPath -ArgumentList $args
     }
-
+    
     $form.Dispose()
 }
 

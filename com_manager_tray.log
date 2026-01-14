@@ -1,0 +1,67 @@
+[2026-01-13 15:06:08] Launching: C:\Users\emfon\AppData\Local\Temp\pio_monitor_COM4_0322308c.cmd
+[2026-01-13 15:06:08]   "C:\Users\emfon\.platformio\penv\Scripts\platformio.exe" 
+[2026-01-13 15:12:43] Launching: C:\Users\emfon\AppData\Local\Temp\pio_monitor_COM4_b206e639.cmd
+[2026-01-13 15:12:43]   "C:\Users\emfon\.platformio\penv\Scripts\platformio.exe" device monitor --port COM4 --baud 921600 --filter direct
+[2026-01-13 15:12:43]   --- cmd file contents ---
+[2026-01-13 15:12:43]   @echo off
+[2026-01-13 15:12:43]   title Serial Monitor COM4 [921600 8-N-1]
+[2026-01-13 15:12:43]   echo --- Serial Monitor: COM4 [921600 8-N-1]
+[2026-01-13 15:12:43]   echo --- Filters: direct
+[2026-01-13 15:12:43]   echo.
+[2026-01-13 15:12:43]   "C:\Users\emfon\.platformio\penv\Scripts\platformio.exe" device monitor --port COM4 --baud 921600 --filter direct
+[2026-01-13 15:12:43]   echo.
+[2026-01-13 15:12:43]   echo [monitor exited] Press any key to close
+[2026-01-13 15:12:43]   pause >nul
+[2026-01-13 15:12:43]   --- end cmd file contents ---
+[2026-01-13 15:16:22] Launching: C:\Users\emfon\AppData\Local\Temp\pio_monitor_COM4_b599d7ef.cmd
+[2026-01-13 15:16:22]   "C:\Users\emfon\.platformio\penv\Scripts\platformio.exe" device monitor --port COM4 --baud 921600 --filter hexlify
+[2026-01-13 15:16:22]   --- cmd file contents ---
+[2026-01-13 15:16:22]   @echo off
+[2026-01-13 15:16:22]   title Serial Monitor COM4 [921600 8-N-1]
+[2026-01-13 15:16:22]   echo --- Serial Monitor: COM4 [921600 8-N-1]
+[2026-01-13 15:16:22]   echo --- Filters: hexlify
+[2026-01-13 15:16:22]   echo.
+[2026-01-13 15:16:22]   "C:\Users\emfon\.platformio\penv\Scripts\platformio.exe" device monitor --port COM4 --baud 921600 --filter hexlify
+[2026-01-13 15:16:22]   echo.
+[2026-01-13 15:16:22]   echo [monitor exited] Press any key to close
+[2026-01-13 15:16:22]   pause >nul
+[2026-01-13 15:16:22]   --- end cmd file contents ---
+[2026-01-13 15:22:20] Launching: C:\Users\emfon\AppData\Local\Temp\pio_monitor_COM4_c65d081c.cmd
+[2026-01-13 15:22:20]   "C:\Users\emfon\.platformio\penv\Scripts\platformio.exe" device monitor --port COM4 --baud 921600 --filter direct
+[2026-01-13 15:22:20]   --- cmd file contents ---
+[2026-01-13 15:22:20]   @echo off
+[2026-01-13 15:22:20]   title Serial Monitor COM4 [921600 8-N-1]
+[2026-01-13 15:22:20]   echo --- Serial Monitor: COM4 [921600 8-N-1]
+[2026-01-13 15:22:20]   echo --- Filters: direct
+[2026-01-13 15:22:20]   echo.
+[2026-01-13 15:22:20]   "C:\Users\emfon\.platformio\penv\Scripts\platformio.exe" device monitor --port COM4 --baud 921600 --filter direct
+[2026-01-13 15:22:20]   echo.
+[2026-01-13 15:22:20]   echo [monitor exited] Press any key to close
+[2026-01-13 15:22:20]   pause >nul
+[2026-01-13 15:22:20]   --- end cmd file contents ---
+[2026-01-13 16:05:18] Launching: C:\Users\emfon\AppData\Local\Temp\pio_monitor_COM2_14300520.cmd
+[2026-01-13 16:05:18]   "C:\Users\emfon\.platformio\penv\Scripts\platformio.exe" device monitor --port COM2 --baud 921600 --filter direct
+[2026-01-13 16:05:18]   --- cmd file contents ---
+[2026-01-13 16:05:18]   @echo off
+[2026-01-13 16:05:18]   title Serial Monitor COM2 [921600 8-N-1]
+[2026-01-13 16:05:18]   echo --- Serial Monitor: COM2 [921600 8-N-1]
+[2026-01-13 16:05:18]   echo --- Filters: direct
+[2026-01-13 16:05:18]   echo.
+[2026-01-13 16:05:18]   "C:\Users\emfon\.platformio\penv\Scripts\platformio.exe" device monitor --port COM2 --baud 921600 --filter direct
+[2026-01-13 16:05:18]   echo.
+[2026-01-13 16:05:18]   echo [monitor exited] Press any key to close
+[2026-01-13 16:05:18]   pause >nul
+[2026-01-13 16:05:18]   --- end cmd file contents ---
+[2026-01-13 16:05:32] Launching: C:\Users\emfon\AppData\Local\Temp\pio_monitor_COM4_5768f754.cmd
+[2026-01-13 16:05:32]   "C:\Users\emfon\.platformio\penv\Scripts\platformio.exe" device monitor --port COM4 --baud 921600 --filter direct
+[2026-01-13 16:05:32]   --- cmd file contents ---
+[2026-01-13 16:05:32]   @echo off
+[2026-01-13 16:05:32]   title Serial Monitor COM4 [921600 8-N-1]
+[2026-01-13 16:05:32]   echo --- Serial Monitor: COM4 [921600 8-N-1]
+[2026-01-13 16:05:32]   echo --- Filters: direct
+[2026-01-13 16:05:32]   echo.
+[2026-01-13 16:05:32]   "C:\Users\emfon\.platformio\penv\Scripts\platformio.exe" device monitor --port COM4 --baud 921600 --filter direct
+[2026-01-13 16:05:32]   echo.
+[2026-01-13 16:05:32]   echo [monitor exited] Press any key to close
+[2026-01-13 16:05:32]   pause >nul
+[2026-01-13 16:05:32]   --- end cmd file contents ---

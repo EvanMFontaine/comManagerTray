@@ -470,76 +470,40 @@ function Open-COMPort {
             }
         }
 
-        # Build a single cmd.exe-safe PlatformIO invocation line.
-        # Avoid complex quoting/argument-joining bugs by emitting an explicit command string.
-        $pioExeInBat = $pioPath
-        if ($pioPath -ne "platformio") {
-            $pioExeInBat = '"' + $pioPath + '"'
-        }
-
-        $pioLine = "$pioExeInBat device monitor --port $portName --baud $baudRate"
+        # Build arguments for platformio.exe
+        $args = New-Object System.Collections.Generic.List[string]
+        $args.AddRange(@("device", "monitor", "--port", $portName, "--baud", $baudRate))
 
         # Add parity/data/stop bits if not default
         if ($dataBits -ne "8" -or $parity -ne "N" -or $stopBits -ne "1") {
-            $pioLine += " --parity $parity --databits $dataBits --stopbits $stopBits"
+            $args.AddRange(@("--parity", $parity, "--databits", $dataBits, "--stopbits", $stopBits))
         }
 
         # Add all selected filters (repeat --filter)
         foreach ($f in $filters) {
-            $pioLine += " --filter $f"
+            $args.AddRange(@("--filter", $f))
         }
 
         # Pretty banner
         $filterStr = ($filters.ToArray() -join ", ")
         $uartFmt = "$baudRate $dataBits-$parity-$stopBits"
 
-        # Launch in a new console.
-        # IMPORTANT: piping/quoting in cmd.exe is fragile, and it was swallowing PlatformIO args.
-        # Create a temporary .cmd file instead (robust, easy to inspect, preserves Ctrl+C).
+        # Launch in a new console and optionally print the chosen settings first
+        # Using cmd.exe so we can echo before PlatformIO starts (and keep Ctrl+C behavior).
+        $pioQuoted = '"' + $pioPath + '"'
+        $argsJoined = ($args | ForEach-Object {
+            if ($_ -match '\s') { '"' + $_ + '"' } else { $_ }
+        }) -join ' '
 
-        $batName = "pio_monitor_{0}_{1}.cmd" -f $portName, ([Guid]::NewGuid().ToString('N').Substring(0,8))
-        $batPath = Join-Path $env:TEMP $batName
-
-        $batLines = New-Object System.Collections.Generic.List[string]
-        $batLines.Add("@echo off")
-        $batLines.Add("title Serial Monitor $portName [$uartFmt]")
+        $cmdLine = ""
         if ($cbPrintSelection.Checked) {
-            $batLines.Add("echo --- Serial Monitor: $portName [$uartFmt]")
-            $batLines.Add("echo --- Filters: $filterStr")
-            $batLines.Add("echo.")
+            $cmdLine = "echo --- Serial Monitor: $portName [$uartFmt] & echo --- Filters: $filterStr & echo."
+            $cmdLine += " & "
         }
-        $batLines.Add($pioLine)
-        $batLines.Add("echo.")
-        $batLines.Add("echo [monitor exited] Press any key to close")
-        $batLines.Add("pause >nul")
+        $cmdLine += "call $pioQuoted $argsJoined"
 
-        try {
-            [System.IO.File]::WriteAllLines($batPath, $batLines.ToArray())
-        } catch {
-            [System.Windows.Forms.MessageBox]::Show(
-                "Failed to create temporary launch script:`n$batPath`n`n$_",
-                "Launch Error",
-                [System.Windows.Forms.MessageBoxButtons]::OK,
-                [System.Windows.Forms.MessageBoxIcon]::Error
-            )
-            return
-        }
-
-        # Optional: log the exact command for debugging (tray mode has no console)
-        try {
-            $logPath = Join-Path $PSScriptRoot "com_manager_tray.log"
-            $stamp = (Get-Date).ToString("yyyy-MM-dd HH:mm:ss")
-            Add-Content -Path $logPath -Value "[$stamp] Launching: $batPath"
-            Add-Content -Path $logPath -Value "[$stamp]   $pioLine"
-            Add-Content -Path $logPath -Value "[$stamp]   --- cmd file contents ---"
-            foreach ($l in $batLines) { Add-Content -Path $logPath -Value "[$stamp]   $l" }
-            Add-Content -Path $logPath -Value "[$stamp]   --- end cmd file contents ---"
-        } catch {}
-
-        # cmd.exe needs extra quoting to run a path with spaces via /k
-        # Pass as two arguments: /k  and  ""<batPath>""
-        $cmdArg2 = "`"`"$batPath`"`""
-        Start-Process -FilePath "cmd.exe" -ArgumentList @("/k", $cmdArg2)
+        Write-Host "Launching monitor: cmd.exe /k $cmdLine"
+        Start-Process -FilePath "cmd.exe" -ArgumentList @("/k", $cmdLine)
     }
 
     $form.Dispose()
